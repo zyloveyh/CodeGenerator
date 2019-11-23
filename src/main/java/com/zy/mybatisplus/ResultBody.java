@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResultBody<T> {
-    private String code = "0";
+public class ResultBody {
+    private String code = "0000";
     private String message = "成功";
-    private T data = null;
+    private Object data = null;
 }

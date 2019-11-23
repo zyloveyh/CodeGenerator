@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ResultBody {
-    private String code = "0";
+    private String code = "0000";
     private String message = "成功";
     private Object data = null;
 }

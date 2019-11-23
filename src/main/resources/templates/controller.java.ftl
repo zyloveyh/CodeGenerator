@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 import ${package.Entity}.ResultBody;
+import ${cfg.packageName}.BaseResultMessage;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -23,13 +24,13 @@ import io.swagger.annotations.ApiOperation;
 </#if>
 
 /**
-* <p>
-* ${table.comment!} 前端控制器
-* </p>
-*
-* @author ${author}
-* @since ${date}
-*/
+ * <p>
+ * ${table.comment!} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
 
 @Slf4j
 <#if restControllerStyle>
@@ -42,9 +43,9 @@ import io.swagger.annotations.ApiOperation;
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
 <#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
+public class ${table.controllerName} extends ${superControllerClass} implements BaseResultMessage {
 <#else>
-public class ${table.controllerName} {
+public class ${table.controllerName} implements BaseResultMessage {
 
     @Autowired
     ${table.serviceName} ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first};

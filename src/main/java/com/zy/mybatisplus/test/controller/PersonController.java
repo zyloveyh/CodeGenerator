@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 import com.zy.mybatisplus.test.entity.ResultBody;
+import com.zy.mybatisplus.test.message.BaseResultMessage;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,11 +20,13 @@ import io.swagger.annotations.ApiOperation;
  * </p>
  *
  * @author zy
- * @since 2019-11-21
+ * @since 2019-11-23
  */
+
+@Slf4j
 @RestController
 @RequestMapping("/test/person")
-public class PersonController {
+public class PersonController implements BaseResultMessage {
 
     @Autowired
     IPersonService personService;
