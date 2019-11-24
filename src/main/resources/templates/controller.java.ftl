@@ -2,6 +2,7 @@ package ${package.Controller};
 
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,8 @@ public class ${table.controllerName} implements BaseResultMessage {
     ${table.serviceName} ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first};
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    @ApiOperation(value = "insert", notes = "新增一条记录", httpMethod = "POST")
-    public ResultBody insert(${entity} ${entity?uncap_first}) {
+    @ApiOperation(value = "新增一条记录", notes = "新增一条记录", httpMethod = "POST")
+    public ResultBody insert(@RequestBody ${entity} ${entity?uncap_first}) {
         try {
             ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first}.save(${entity?uncap_first});
         } catch (Exception e) {
@@ -61,6 +62,28 @@ public class ${table.controllerName} implements BaseResultMessage {
         return ResultBody.builder().code(Code.FAIL).message(Message.SUCCESS).build();
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "根据主键Id 删除一条记录", notes = "根据主键Id 删除一条记录", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "id", value = "主键id值", required = true, paramType = "path", dataType = "Integer")
+    public ResultBody delete(@PathVariable String id) {
+        try {
+            ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first}.removeById(id);
+        } catch (Exception e) {
+            return ResultBody.builder().code(Code.FAIL).message(e.getMessage()).build();
+        }
+        return ResultBody.builder().code(Code.FAIL).message(Message.SUCCESS).build();
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ApiOperation(value = "根据已有的值 更新一条记录", notes = "根据已有的值 更新一条记录", httpMethod = "PUT")
+    public ResultBody update(@RequestBody ${entity} ${entity?uncap_first}) {
+        try {
+            ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first}.updateById(${entity?uncap_first});
+        } catch (Exception e) {
+            return ResultBody.builder().code(Code.FAIL).message(e.getMessage()).build();
+        }
+        return ResultBody.builder().code(Code.FAIL).message(Message.SUCCESS).build();
+    }
 
  </#if>
 
