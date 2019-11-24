@@ -32,13 +32,25 @@ public class MybatisPlusCodeGenerator {
     private static String password = "asdfg1230";
 
 
+
+    private static String projectPath;
+    // 自定义配置
+    private static InjectionConfig cfg = new InjectionConfig() {
+        @Override
+        public void initMap() {
+            // to do nothing
+        }
+    };
+    // 自定义输出配置
+    private static List<FileOutConfig> focList = new ArrayList<>();
+
     public static void main(String[] args) throws IOException, TemplateException {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = System.getProperty("user.dir");
+        projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("zy");
         gc.setOpen(false);
@@ -92,7 +104,7 @@ public class MybatisPlusCodeGenerator {
                 .setXml("templates/mapper.xml")
                 .setService("templates/service.java")
                 .setServiceImpl("templates/serviceImpl.java"));
-
+/*
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -121,9 +133,11 @@ public class MybatisPlusCodeGenerator {
         Map<String, Object> map = new HashMap<>();
         map.put("packageName", pcName + "." + modelName + ".message");
         cfg.setMap(map);
-        mpg.setCfg(cfg);
+        mpg.setCfg(cfg);*/
 
 
+        addNowTemplate(mpg, "templates/baseResultMessage.java.ftl", "message", "BaseResultMessage");
+        addNowTemplate(mpg, "templates/resultBody.java.ftl", "entity", "ResultBody");
         mpg.execute();
 /*
 
@@ -136,6 +150,35 @@ public class MybatisPlusCodeGenerator {
 */
 
     }
+
+
+    public static void addNowTemplate(AutoGenerator mpg, String templatePath, String prePackage, String className) {
+
+        // 自定义配置会被优先输出
+        focList.add(new FileOutConfig(templatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return projectPath + "/src/main/java/" + pcName.replaceAll("\\." +
+                        "", "/") + "/" + modelName + "/" + prePackage + "/" + className + ".java";
+            }
+        });
+
+        if (cfg.getFileOutConfigList()!=null) {
+            focList.addAll(cfg.getFileOutConfigList());
+        }
+        cfg.setFileOutConfigList(focList);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(className, pcName + "." + modelName + "." + prePackage);
+        if (cfg.getMap() != null) {
+            map.putAll(cfg.getMap());
+        }
+        cfg.setMap(map);
+
+        mpg.setCfg(cfg);
+    }
+
 
     public static void generatorEntity(Map<String, Object> rootMap, String templateFilePath, String outputFilePath) throws IOException,
             TemplateException {

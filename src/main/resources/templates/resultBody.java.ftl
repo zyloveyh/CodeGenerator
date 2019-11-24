@@ -1,4 +1,4 @@
-package com.zy.mybatisplus.test.entity;
+package ${cfg.ResultBody};
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

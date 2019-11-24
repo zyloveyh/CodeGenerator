@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
-import ${package.Entity}.ResultBody;
-import ${cfg.packageName}.BaseResultMessage;
+import ${cfg.ResultBody}.ResultBody;
+import ${cfg.BaseResultMessage}.BaseResultMessage;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -56,9 +56,9 @@ public class ${table.controllerName} implements BaseResultMessage {
         try {
             ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first}.save(${entity?uncap_first});
         } catch (Exception e) {
-            return ResultBody.builder().code("0001").message(e.getMessage()).build();
+            return ResultBody.builder().code(Code.FAIL).message(e.getMessage()).build();
         }
-        return ResultBody.builder().code("0000").message("").build();
+        return ResultBody.builder().code(Code.FAIL).message(Message.SUCCESS).build();
     }
 
 

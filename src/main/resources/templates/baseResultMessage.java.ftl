@@ -1,12 +1,12 @@
-package ${cfg.packageName};
+package ${cfg.BaseResultMessage};
 
 public interface BaseResultMessage {
-    class Code {
+    interface Code {
         String SUCCESS= "0000";
-        String FAILS = "0001";
+        String FAIL = "0001";
     }
 
-    class Message {
+    interface Message {
         String SUCCESS = "成功";
         String FAIL = "失败";
     }
