@@ -6,3 +6,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
+
+logging:
+  file: my.log
+  path: var/logs
+  level:
+    root: info
+    com.zy.mybatisplus.test.mapper: debug
