@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 </#if>
 
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -105,6 +105,30 @@ public class ${table.controllerName} implements BaseResultMessage {
             return ResultBody.builder().code(Code.FAIL).message(e.getMessage()).build();
         }
         return ResultBody.builder().code(Code.FAIL).message(Message.SUCCESS).build();
+    }
+
+    @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "根据Id 查找一条记录", notes = "根据Id 查找一条记录", httpMethod = "GET")
+    public ResultBody getById(@PathVariable Integer id) {
+        ${entity} result = null;
+        try {
+            result = ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first}.getById(id);
+        } catch (Exception e) {
+            return ResultBody.builder().code(Code.FAIL).message(e.getMessage()).build();
+        }
+        return ResultBody.builder().code(Code.FAIL).message(Message.SUCCESS).data(result).build();
+    }
+
+    @RequestMapping(value = "/listByIds", method = RequestMethod.GET)
+    @ApiOperation(value = "根据集合 查找记录", notes = "根据集合 查找记录", httpMethod = "GET")
+    public ResultBody listByIds(@RequestBody List<Integer> ids) {
+        Collection<${entity}> resultList = new ArrayList<>();
+        try {
+            resultList = ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first}.listByIds(ids);
+        } catch (Exception e) {
+            return ResultBody.builder().code(Code.FAIL).message(e.getMessage()).build();
+        }
+        return ResultBody.builder().code(Code.FAIL).message(Message.SUCCESS).data(resultList).build();
     }
 
 
