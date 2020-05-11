@@ -45,6 +45,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--        数据库连接池依赖-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
         <!--        swagger2-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -60,14 +67,9 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.2.0</version>
+            <version>3.1.0</version>
         </dependency>
-        <!--        数据库连接池依赖-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.1.0</version>
-        </dependency>
+
         <!--        代码生成器依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -79,6 +81,17 @@
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.29</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.chinastock.uniplatform</groupId>
+            <artifactId>com.chinastock.uniplatform.db</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.chinastock.uniplatform</groupId>
+            <artifactId>com.chinastock.uniplatform.common</artifactId>
+            <version>0.0.1</version>
         </dependency>
 
     </dependencies>

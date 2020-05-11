@@ -21,16 +21,15 @@ import java.util.Map;
 
 public class MybatisPlusCodeGenerator {
     //模块所在的包名
-    private static String pcName = "com.zy.mybatisplus";
+    private static String pcName = "com.chinastock.itesty";
     //模块名
-    private static String modelName = "test";
+    private static String modelName = "mission";
     //表明，多个用逗号分隔
-    private static String tableName = "person,students";
-    private static String url = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC";
+    private static String tableName = "t_other_mission";
+    private static String url = "jdbc:mysql://47.107.169.231:19505/itesty-1?serverTimezone=UTC";
     private static String driverClassName = "com.mysql.cj.jdbc.Driver";
-    private static String username = "root";
-    private static String password = "asdfg1230";
-
+    private static String username = "itesty";
+    private static String password = "123456itesty";
 
 
     private static String projectPath;
@@ -58,6 +57,7 @@ public class MybatisPlusCodeGenerator {
         gc.setBaseColumnList(true);
         gc.setFileOverride(true);//设置是否覆盖原来的代码
         gc.setBaseResultMap(true);
+//        gc.setEntityName("%sDTO");
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
@@ -78,6 +78,7 @@ public class MybatisPlusCodeGenerator {
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
+
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
@@ -88,8 +89,13 @@ public class MybatisPlusCodeGenerator {
         // 写于父类中的公共字段
         //strategy.setSuperEntityColumns("id");
         strategy.setInclude(tableName.split(","));
+
         strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(pc.getModuleName() + "_");
+        /**
+         * 前缀
+         */
+        strategy.setTablePrefix("t_");
+
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
 
@@ -98,12 +104,12 @@ public class MybatisPlusCodeGenerator {
                 //注意不要带上.ftl(或者是.vm), 会根据使用的模板引擎自动识别
                 // 自定义模板配置，模板可以参考源码 /mybatis-plus/src/main/resources/template 使用 copy
                 // 至您项目 src/main/resources/template 目录下，模板名称也可自定义如下配置：
-                .setController("templates/controller.java")
-                .setEntity("templates/entity.java")
-                .setMapper("templates/mapper.java")
-                .setXml("templates/mapper.xml")
-                .setService("templates/service.java")
-                .setServiceImpl("templates/serviceImpl.java"));
+                .setController("templates2/controller.java")
+                .setEntity("templates2/entity.java")
+                .setMapper("templates2/mapper.java")
+                .setXml("templates2/mapper.xml")
+                .setService("templates2/service.java")
+                .setServiceImpl("templates2/serviceImpl.java"));
 /*
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
@@ -136,8 +142,10 @@ public class MybatisPlusCodeGenerator {
         mpg.setCfg(cfg);*/
 
 
-        addNowTemplate(mpg, "templates/baseResultMessage.java.ftl", "message", "BaseResultMessage");
-        addNowTemplate(mpg, "templates/resultBody.java.ftl", "entity", "ResultBody");
+//        addNowTemplate(mpg, "templates/baseResultMessage.java.ftl", "message", "BaseResultMessage");
+//        addNowTemplate(mpg, "templates/resultBody.java.ftl", "entity", "ResultBody");
+        addNowTemplate(mpg, "templates2/paramCheckUtil.java.ftl", "utils", "ParamCheckUtil");
+
         mpg.execute();
 /*
 
@@ -164,7 +172,7 @@ public class MybatisPlusCodeGenerator {
             }
         });
 
-        if (cfg.getFileOutConfigList()!=null) {
+        if (cfg.getFileOutConfigList() != null) {
             focList.addAll(cfg.getFileOutConfigList());
         }
         cfg.setFileOutConfigList(focList);
@@ -205,4 +213,51 @@ public class MybatisPlusCodeGenerator {
         fileParent.mkdirs();
     }
 
+    private final static String UNDERLINE = "_";
+
+    /***
+     * 下划线命名转为驼峰命名
+     *
+     * @param para
+     *        下划线命名的字符串
+     */
+
+    public static String underlineToHump(String para) {
+        StringBuilder result = new StringBuilder();
+        String a[] = para.split(UNDERLINE);
+        for (String s : a) {
+            if (!para.contains(UNDERLINE)) {
+                result.append(s);
+                continue;
+            }
+            if (result.length() == 0) {
+                result.append(s.toLowerCase());
+            } else {
+                result.append(s.substring(0, 1).toUpperCase());
+                result.append(s.substring(1).toLowerCase());
+            }
+        }
+        return result.toString();
+    }
+
+    /***
+     * 驼峰命名转为下划线命名
+     *
+     * @param para
+     *        驼峰命名的字符串
+     */
+
+    public static String humpToUnderline(String para) {
+        StringBuilder sb = new StringBuilder(para);
+        int temp = 0;//定位
+        if (!para.contains(UNDERLINE)) {
+            for (int i = 0; i < para.length(); i++) {
+                if (Character.isUpperCase(para.charAt(i))) {
+                    sb.insert(i + temp, UNDERLINE);
+                    temp += 1;
+                }
+            }
+        }
+        return sb.toString().toUpperCase();
+    }
 }
