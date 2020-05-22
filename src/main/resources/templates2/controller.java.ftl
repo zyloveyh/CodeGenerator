@@ -124,15 +124,15 @@ public class ${table.controllerName} {
 
     @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "根据Id 查找一条记录", notes = "根据Id 查找一条记录", httpMethod = "GET")
-    public BaseResponse${r"<"}Object${r">"} getById(@PathVariable Long id) {
+    public BaseResponse${r"<"}${entity}${r">"} getById(@PathVariable Long id) {
         ${entity} data = null;
         try {
             data = ${(table.serviceName?substring(1,(table.serviceName)?length))?uncap_first}.getById(id);
         } catch (Exception e) {
             log.error("getById fail detail Info:" + e.getMessage());
-            return BaseResponseBuilder.fail(ResponseStatus.SYS_BUSY.getCode(), e.getMessage());
+            return new BaseResponseEntity${r"<"}${entity}${r">"}().fail(ResponseStatus.SYS_BUSY.getCode(), e.getMessage());
         }
-        return BaseResponseBuilder.success(data);
+        return new BaseResponseEntity${r"<"}${entity}${r">"}().success(data)
     }
 
 
