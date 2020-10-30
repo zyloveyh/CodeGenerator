@@ -48,7 +48,7 @@ public class ${table.controllerName} {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST, headers = "Content-Type=application/json;charset=UTF-8")
     @ApiOperation(value = "新增一条记录", notes = "新增一条记录", httpMethod = "POST")
-    public BaseResponse${r"<"}Object${r">"} insert(@RequestBody BaseRequest${r"<"}${entity}${r">"} baseRequest) {
+    public BaseResponse insert(@RequestBody BaseRequest${r"<"}${entity}${r">"} baseRequest) {
         Meta meta = ParamCheckUtil.checkInsertParam(baseRequest);
         if (!meta.isSuccess()) {
             return BaseResponseBuilder.fail(meta);
@@ -66,7 +66,7 @@ public class ${table.controllerName} {
 
     @RequestMapping(value = "/insertSelective", method = RequestMethod.POST, headers = "Content-Type=application/json;charset=UTF-8")
     @ApiOperation(value = "新增一条记录 insertSelective", notes = "新增一条记录 Selective", httpMethod = "POST")
-    public BaseResponse${r"<"}Object${r">"} insertSelective(@RequestBody BaseRequest${r"<"}${entity}${r">"} baseRequest) {
+    public BaseResponse insertSelective(@RequestBody BaseRequest${r"<"}${entity}${r">"} baseRequest) {
         Meta meta = ParamCheckUtil.checkInsertParam(baseRequest);
         if (!meta.isSuccess()) {
             return BaseResponseBuilder.fail(meta);
@@ -87,7 +87,7 @@ public class ${table.controllerName} {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "根据主键Id 删除一条记录", notes = "根据主键Id 删除一条记录", httpMethod = "DELETE")
     @ApiImplicitParam(name = "id", value = "主键id值", required = true, paramType = "path", dataType = "Integer")
-    public BaseResponse${r"<"}Object${r">"} delete(@PathVariable Long id) {
+    public BaseResponse delete(@PathVariable Long id) {
         int num = 0;
 
         try {
@@ -107,7 +107,7 @@ public class ${table.controllerName} {
 
     @RequestMapping(value = "/updateSelective", method = RequestMethod.PUT, headers = "Content-Type=application/json;charset=UTF-8")
     @ApiOperation(value = "根据已有的值 更新一条记录", notes = "根据已有的值 更新一条记录", httpMethod = "PUT")
-    public BaseResponse${r"<"}Object${r">"} updateSelective(@RequestBody BaseRequest${r"<"}${entity}${r">"} baseRequest) {
+    public BaseResponse updateSelective(@RequestBody BaseRequest${r"<"}${entity}${r">"} baseRequest) {
         Meta meta = ParamCheckUtil.checkUpdateParam(baseRequest);
         if (!meta.isSuccess()) {
             return BaseResponseBuilder.fail(meta);
@@ -132,7 +132,7 @@ public class ${table.controllerName} {
             log.error("getById fail detail Info:" + e.getMessage());
             return new BaseResponseEntity${r"<"}${entity}${r">"}().fail(ResponseStatus.SYS_BUSY.getCode(), e.getMessage());
         }
-        return new BaseResponseEntity${r"<"}${entity}${r">"}().success(data)
+        return new BaseResponseEntity${r"<"}${entity}${r">"}().success(data);
     }
 
 

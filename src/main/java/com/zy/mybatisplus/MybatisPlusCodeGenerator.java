@@ -1,5 +1,6 @@
 package com.zy.mybatisplus;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -21,15 +22,15 @@ import java.util.Map;
 
 public class MybatisPlusCodeGenerator {
     //模块所在的包名
-    private static String pcName = "com.chinastock.itesty";
+    private static String pcName = "com.chinastock.quickproject.backend";
     //模块名
-    private static String modelName = "mission";
+    private static String modelName = "dict";
     //表明，多个用逗号分隔
-    private static String tableName = "t_other_mission";
-    private static String url = "jdbc:mysql://47.107.169.231:19505/itesty-1?serverTimezone=UTC";
-    private static String driverClassName = "com.mysql.cj.jdbc.Driver";
-    private static String username = "itesty";
-    private static String password = "123456itesty";
+    private static String tableName = "t_dict";
+    private static String url = "jdbc:sqlite:X:\\db.sqlite";
+    private static String driverClassName = "org.sqlite.JDBC";
+    private static String username = "";
+    private static String password = "";
 
 
     private static String projectPath;
@@ -67,7 +68,7 @@ public class MybatisPlusCodeGenerator {
                 .setDriverName(driverClassName)
                 .setUsername(username)
                 .setPassword(password);
-
+        dsc.setDbType(DbType.SQLITE);
         mpg.setDataSource(dsc);
 
         // 包配置
